@@ -20,7 +20,7 @@ alias ll="ls -lhaG"
 alias la="ls -la"
 alias grep="grep --color=auto"
 alias watch="watch --color "
-source .dotfiles/.git_aliases
+source ~/.dotfiles/.git_aliases
 function gpullall () {
     pushd $REPOS;
     # pull all repositories, 8 repositories at a time
@@ -79,6 +79,8 @@ alias generatek8stoken='kubectl -n kube-system describe secret $(kubectl -n kube
 alias deletepodsinerrorstate='kubectl get pods --field-selector=status.phase=Error | awk "{print \$1}" | xargs -I {} kubectl delete pods/{}'
 alias vi="nvim" 
 alias vim="nvim" 
+alias j="jobs"
+alias f="fg"
 # Get and decode a secret
 function kcgsecret() {
     declare -i result
@@ -176,3 +178,6 @@ eval "$(direnv hook bash)"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules --ignore *.pyc --ignore __pycache__ -g ""'
+export NPM_TOKEN=193aa62e23948e6e84ab208792e9d0f755d23ade
+
+#export LC_ALL=C

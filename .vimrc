@@ -4,11 +4,13 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'https://github.com/morhetz/gruvbox'
-Plug 'https://github.com/mileszs/ack.vim'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'majutsushi/tagbar'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'https://github.com/wsdjeg/vim-fetch'
+Plug 'jremmen/vim-ripgrep'
+" Better Visual Guide
+Plug 'Yggdroot/indentLine'
 
 let mapleader = ","
 
@@ -18,13 +20,11 @@ nmap ,f :NERDTreeFind<CR>
 let NERDTreeIgnore = ['\.pyc$','__pycache__']
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 " Fzf
 nnoremap <c-p> :Files<cr>
-" Ack vim 
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-nmap <leader>a :Ack<Space>
+" Ripgrep
+nmap <leader>a :Rg<Space>
 " Tagbar
 nmap <F9> :TagbarToggle<CR>
 " Initialize plugin system
@@ -244,12 +244,12 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers 
-try
-  set switchbuf=useopen,usetab,newtab
-  set stal=2
-catch
-endtry
+"" Specify the behavior when switching between buffers 
+"try
+"  set switchbuf=useopen,usetab,newtab
+"  set stal=2
+"catch
+"endtry
 
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -263,6 +263,32 @@ set laststatus=2
 
 " Format the status line
 set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+set statusline=
+set statusline+=%#PmenuSel#
+"set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ 
+
+
 "set statusline^=%{coc#status()}
 
 
@@ -474,7 +500,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
@@ -507,4 +533,5 @@ function! GoBackToRecentBuffer()
   endwhile
 endfunction
 
+let g:coc_disable_startup_warning = 1
 nnoremap <silent> <C-M> :call GoBackToRecentBuffer()<Enter>

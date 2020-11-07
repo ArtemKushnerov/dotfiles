@@ -1,3 +1,5 @@
+# From https://gist.github.com/chrisberkhout/210edc1f93882b22900ae11e87d827ce
+#
 # git aliases - taken from oh-my-zsh's git plugin and translated to bash
 #     https://github.com/robbyrussell/oh-my-zsh/wiki/Cheatsheet#helpful-aliases-for-common-git-tasks
 #     https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/git/git.plugin.zsh
