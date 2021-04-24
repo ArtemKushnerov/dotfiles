@@ -178,6 +178,10 @@ eval "$(direnv hook bash)"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules --ignore *.pyc --ignore __pycache__ -g ""'
-export NPM_TOKEN=193aa62e23948e6e84ab208792e9d0f755d23ade
+export NPM_TOKEN=7baf12a2ed2ff75518f2bdca17f48865d4d8e0b8
 
 #export LC_ALL=C
+export BASH_SILENCE_DEPRECATION_WARNING=1
+wn street
+export GIT_USER=artsiom-streetshares
+export GIT_PASS=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
